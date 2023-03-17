@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+
+        <!-- Ajustement de la taille du viewport-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>TP1</title>
+        <link rel="icon" type="image/png" href="images/favicon.png" sizes="all" />
+
+        <!--Polices de caractères de Google-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet" />
+
+        <!-- Intégrez la police d'icônes Material Icons de Google -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+        <!-- Intégration des styles -->
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+
+    <body>
+        <!-- Entête de la page : logo et titre -->
+        <header class="barre-haut">
+            <!-- Insérez dans l'élément SPAN suivant une référence d'icône Material Icons adéquate -->
+            <h1>Jeux retros</h1>
+        </header>
+        <!-- Barre de navigation -->
+        <div class="barre-nav">
+            <!-- Case à cocher qui permet le contrôle du menu adaptatif en CSS -->
+            <!-- Bouton 'burger' pour contrôler l'affichage du menu -->
+            <input type="checkbox" id="cc-nav-principale" />
+            <label for="cc-nav-principale" class="btn-burger-nav-principale">
+                <div class="conteneur-bouton">
+                    <div class="ligne point ligne1"></div>
+                    <div class="ligne ligne2"></div>
+                    <div class="ligne point ligne3"></div>
+                </div>
+            </label>
+            <!-- Menu -->
+            <nav class="nav-principale">
+                <input type="checkbox" id="premierBouton" class="interrupteur" />
+                <label for="premierBouton">
+                    <div class="glissoire">
+                        <div><div></div></div>
+                    </div>
+                    <p>Mode clair</p>
+                </label>
+                <input type="checkbox" id="deuxiemeBouton" class="interrupteur" />
+                <label for="deuxiemeBouton">
+                    <div class="glissoire">
+                        <div><div></div></div>
+                    </div>
+                    <p>Logos alternatifs</p>
+                </label>
+                <input type="checkbox" id="troisiemeBouton" class="interrupteur" />
+                <label for="troisiemeBouton">
+                    <div class="glissoire">
+                        <div><div></div></div>
+                    </div>
+                    <p>Fonds statiques</p>
+                </label>
+                <input type="checkbox" id="quatriemeBouton" class="interrupteur" />
+                <label for="quatriemeBouton">
+                    <div class="glissoire">
+                        <div><div></div></div>
+                    </div>
+                    <p>Infos</p>
+                </label>
+            </nav>
+        </div>
+
+        <!-- Contenu principal -->
+        <main>
+            <section id="section1" class="fonduGauche">
+                <h2>Pong</h2>
+                <div class="conteneur">
+                    <div class="iconeAnimation">
+                        <!--<div id="iconePong" id="ballePong"></div>-->
+                        <img src="images/iconePong.png" id="iconePong" />
+                    </div>
+                    <div class="contenu">
+                        <div></div>
+                        <div id="ballePong"></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="info">
+                    <p>
+                        Pong est un des premiers jeux vidéo d'arcade et le premier jeu vidéo d'arcade de sport. Il a été imaginé par l'Américain Nolan
+                        Bushnell et développé par Allan Alcorn, et la société Atari le commercialise à partir de novembre 1972.
+                    </p>
+                </div>
+            </section>
+
+            <section id="section2" class="fonduDroite">
+                <h2 id="titrePacMan">Pac-man</h2>
+                <div class="conteneur">
+                    <div class="iconeAnimation">
+                        <img id="iconePacMan" src="images/iconePacMan.png" alt="icone de Pac-man" />
+                    </div>
+                    <div class="contenu">
+                        <div id="point"><img src="images/pointPac.png" alt="Point de Pac-man" /></div>
+                        <div></div>
+                        <div id="PacMan"></div>
+                        <div id="fantome"></div>
+                    </div>
+                </div>
+                <div class="info">
+                    <p>
+                        Pac-Man (パックマン, Pakkuman) (initialement intitulé Puck-man) est un jeu vidéo créé par Tōru Iwatani pour l’entreprise
+                        japonaise Namco, sorti au Japon le 22 mai 1980.
+                    </p>
+                </div>
+            </section>
+
+            <section id="section3" class="fonduGauche">
+                <h2>Mario</h2>
+                <div class="conteneur">
+                    <div class="iconeAnimation">
+                        <img id="iconeMario" src="images/iconeMario.png" alt="icone de mario" />
+                    </div>
+                    <div class="contenu">
+                        <div id="axeX"><div id="mario"></div></div>
+                        <div id="goomba"></div>
+                        <div id="tuyau"><img src="images/tuyau.png" alt="tuyau" /></div>
+                    </div>
+                </div>
+                <div class="info">
+                    <p>
+                        Mario Bros. (マリオブラザーズ, Mario Burazāzu) est un jeu d'arcade développé et édité par Nintendo en 1983. Il a été conçu par
+                        Shigeru Miyamoto comme la suite de Donkey Kong, avec lequel il constitue un des premiers jeux de plates-formes jamais créés.
+                    </p>
+                </div>
+            </section>
+            <section id="section4" class="fonduDroite">
+                <h2>Tetris</h2>
+                <div class="conteneur">
+                    <div class="iconeAnimation">
+                        <img id="iconeTetris" src="images/iconeTetris.png" alt="icone de tetris" />
+                    </div>
+                    <div class="contenu">
+                        <div class="bloc"><img src="images/tetris1.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris2.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris3.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris4.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris5.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris1.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris5.png" alt="bloc Tetris" /></div>
+                        <div class="bloc"><img src="images/tetris2.png" alt="bloc Tetris" /></div>
+                    </div>
+                </div>
+                <div class="info">
+                    <p>
+                        Tetris est un jeu vidéo de puzzle conçu par l'ingénieur soviétique Alekseï Pajitnov à partir de juin 1984 sur Elektronika 60.
+                    </p>
+                </div>
+            </section>
+            <!-- Insérez dans l'élément SPAN suivant une référence d'icône Material Icons adéquate -->
+            <a href="#" class="material-icons btn-retour-haut">arrow_upward</a>
+        </main>
+        <!-- Intégrez la référence vers le fichier JavaScript externe -->
+        <script src="js/index.js"></script>
+
+        <!-- Footer -->
+        <footer>
+            <!--Début section 1 (Adresses) -->
+            <div>
+                <h3><span class="material-icons icone-logo"> school </span> Adresse</h3>
+                <h6>Adresse du cégep Maisonneuve :</h6>
+                <p>3 800, rue Sherbrooke Est Montréal (Québec) H1X 2A2 | 514 254-7131</p>
+            </div>
+
+            <!--Début section 2 (Liens) -->
+            <div>
+                <h3><span class="material-icons icone-logo"> link </span>Liens</h3>
+                <h6>Site du cégep Maisonneuve :</h6>
+                <a href="https://www.cmaisonneuve.qc.ca/" target="_blank">https://www.cmaisonneuve.qc.ca/</a>
+                <div class="ligneFooter"></div>
+                <h6>Site du département TIM :</h6>
+                <a href="https://tim.cmaisonneuve.qc.ca/" target="_blank">https://tim.cmaisonneuve.qc.ca/</a>
+            </div>
+
+            <!--Début section 3 (Crédit) -->
+            <div>
+                <h3><span class="material-icons icone-logo"> person </span>Crédit</h3>
+                <p>Réalisé par Vincent Genest dans le cadre du cours 2W2 comme TP1</p>
+            </div>
+
+            <!--Début section 4 (Résaux et Avis) -->
+            <div>
+                <!--Début réseaux -->
+                <h3><span class="material-icons icone-logo">person_add</span>Me suivre</h3>
+                <div>
+                    <a href="https://www.behance.net/vincentgenest1" target="_blank"
+                        ><img src="https://s2.svgbox.net/social.svg?ic=behance&color=ffffff" alt="Icone Behance" width="32" height="32"
+                    /></a>
+                    <a href="#" target="_blank"
+                        ><img src="https://s2.svgbox.net/social.svg?ic=youtube&color=ffffff" alt="Icone Youtube" width="32" height="32"
+                    /></a>
+                    <a href="#" target="_blank"
+                        ><img src="https://s2.svgbox.net/social.svg?ic=instagram&color=ffffff" alt="Icone Instagram" width="32" height="32"
+                    /></a>
+                    <a href="https://github.com/vincent-genest" target="_blank"
+                        ><img src="https://s2.svgbox.net/social.svg?ic=github&color=ffffff" alt="Icone GitHub" width="32" height="32"
+                    /></a>
+                    <a href="#" target="_blank"
+                        ><img src="https://s2.svgbox.net/social.svg?ic=facebook&color=ffffff" alt="Icone Facebook" width="32" height="32"
+                    /></a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

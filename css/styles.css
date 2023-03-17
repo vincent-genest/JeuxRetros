@@ -1,0 +1,1154 @@
+/*Problèmes
+
+pixel acceptable ou vw necessaire
+Erreur de console (backgroundColor)
+
+*/
+
+/* Normalisation supplémentaire 
+=============================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Mise en page de base
+=============================================== */
+html {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    scroll-behavior: smooth;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: clamp(16px, 0.5rem + 0.5vw, 24px);
+}
+
+body {
+    max-width: 100%;
+    min-height: 100%;
+    color: #0074e8;
+    overflow-y: scroll;
+    background-color: #1b1b1b;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Plus de padding sur plus grands écrans */
+main > section {
+    padding: 1rem 4rem;
+    opacity: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Barre du haut (logo et titre)
+=============================================== */
+/*Header*/
+.barre-haut {
+    display: flex;
+    justify-content: center;
+}
+/*Titre*/
+h1 {
+    color: #ffffff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8, 0 0 55px #0074e8, 0 0 75px #0074e8;
+    animation: animerTexte 4s, animerTexteClignotement 8s 4s infinite linear;
+}
+
+/* Barre de navigation principale
+=============================================== */
+/* Conteneur du menu et des éléments associés */
+.barre-nav {
+    position: fixed;
+    top: 2vh;
+    right: 0;
+    z-index: 1;
+    background-color: transparent;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Bouton burger pour contrôler le menu adaptatif */
+.btn-burger-nav-principale {
+    cursor: pointer;
+    padding-right: 3rem;
+}
+
+/*Classe pour l'apparition des sections*/
+.fonduGauche.active {
+    animation: fonduGauche 700ms cubic-bezier(0.24, 0.59, 0.24, 0.94) forwards;
+}
+.fonduDroite.active {
+    animation: fonduDroite 700ms cubic-bezier(0.24, 0.59, 0.24, 0.94) forwards;
+}
+/* Div conenant les lignes du bouton burger */
+.conteneur-bouton {
+    /*Hauteur du conteneur parent moins celle du titre*/
+    height: 2rem;
+    width: 2rem;
+    /*Conteneur flex avec élément contré dans les 2 sens*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.conteneur-bouton:hover > .point {
+    width: 30%;
+}
+/* Lignes compsant le burger */
+.ligne {
+    width: 100%;
+    height: 0.35rem;
+    background-color: white;
+    border-radius: 50px;
+    transition: transform 1s, opacity 1s, width 1s;
+    box-shadow: 2px 2px 5px rgb(3, 65, 174, 0.5);
+}
+/* Type de lignes en point (en haut et en bas) */
+.point {
+    width: 60%;
+}
+/* Première ligne */
+.ligne1 {
+    align-self: flex-start;
+    transform-origin: center left;
+}
+/* deuxième ligne */
+.ligne2 {
+    transform-origin: center;
+}
+/* troisième ligne */
+.ligne3 {
+    align-self: flex-end;
+    transform-origin: center right;
+}
+
+/* Le menu de navigation adaptatif */
+.nav-principale {
+    position: fixed;
+    color: white;
+    font-size: 2rem;
+    top: 0vh;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 2rem;
+    padding-top: 2rem;
+    transform-origin: top right;
+    transform: translateX(100%);
+    transition: transform 0.5s;
+}
+
+/* Les items de menu */
+.nav-principale label {
+    display: flex;
+    align-items: center;
+}
+/*Les boutons*/
+.interrupteur {
+    display: none;
+}
+/*Le fond des boutons*/
+.glissoire {
+    width: 50px;
+    height: 25px;
+    border-radius: 34px;
+    background-color: rgb(204, 204, 204);
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    margin-right: 2vw;
+}
+/*Le rond des boutons*/
+.glissoire > div {
+    width: 20px;
+    height: 20px;
+    margin-left: 2px;
+    transition: transform 0.3s;
+}
+.glissoire > div > div {
+    background-color: #ffffff;
+    border-radius: 34px;
+    width: 100%;
+    height: 100%;
+}
+.glissoire:hover > div > div {
+    animation: animerBoutons 0.5s ease-in-out forwards;
+}
+.glissoire > div > div {
+    animation: animerBoutonsPlusHover 0.5s ease-in-out forwards;
+}
+
+/* États des différents éléments lorsque la case à cocher est cochée
+==================================================================== */
+/*Quand le menu est ouvert, le nav apparait*/
+#cc-nav-principale:checked ~ .nav-principale {
+    animation-play-state: running;
+    transform: translateX(0%);
+}
+
+/*Quand le menu est ouvert, le burger se transforme en x*/
+#cc-nav-principale:checked + label .conteneur-bouton :first-child {
+    transform: rotate(45deg) scaleX(0.7) translateY(-0.3vh);
+}
+#cc-nav-principale:checked + label .conteneur-bouton :nth-child(2) {
+    transform: rotate(-45deg) scaleX(1.2);
+}
+#cc-nav-principale:checked + label .conteneur-bouton :last-child {
+    transform: rotate(45deg) scaleX(0.7) translateY(0.3vh);
+}
+/*Quand le menu est ouvert, le burger devient blanc*/
+#cc-nav-principale:checked + label .conteneur-bouton .ligne {
+    animation: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+#cc-nav-principale:checked + label .conteneur-bouton .point {
+    animation-play-state: paused;
+    box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.5);
+}
+/*Cache la checkbox du burger*/
+#cc-nav-principale {
+    display: none;
+}
+
+/*Quand un bouton est cliqué, on déplace le rond et on chnge le fond*/
+.interrupteur:checked + label > .glissoire > div {
+    transform: translateX(26px);
+}
+.interrupteur:checked + label > .glissoire {
+    background-color: green;
+}
+
+/* Contenu principal
+=============================================== */
+
+/* Titres des sections du contenu principal */
+main > section h2 {
+    margin: 0.5rem 0;
+    padding-bottom: 0.25rem;
+}
+main > section:first-of-type h2 {
+    color: white;
+    text-shadow: 2px 2px 5px rgba(239, 239, 239, 0.8);
+    border-bottom: 5px dashed white;
+}
+main > section:nth-of-type(2) h2 {
+    color: rgb(254, 204, 0);
+    text-shadow: 2px 2px 5px rgb(254, 204, 0, 0.8);
+    border-bottom: 5px dotted white;
+}
+main > section:nth-of-type(3) h2 {
+    color: #ec343a;
+    text-shadow: 2px 2px 5px rgb(254, 0, 2, 0.8);
+    border-bottom: 5px solid #835a47;
+}
+main > section:last-of-type h2 {
+    color: rgb(24, 229, 43);
+    text-shadow: 2px 2px 5px rgb(24, 229, 43, 0.8);
+    border-bottom: 5px solid #ff7f00;
+}
+
+/*Carré gris contenant les animations*/
+.conteneur {
+    height: 40vh;
+    width: 40vh;
+    border-radius: 30px;
+    margin: 1.5rem auto;
+    margin-bottom: 0;
+    background-color: #454545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+/*Icones des animations*/
+.iconeAnimation {
+    transition: opacity 0.5s;
+}
+/*Div contenant les éléments de l'animation*/
+.contenu {
+    opacity: 0;
+    transition: opacity 0.5s;
+    overflow: hidden;
+    border-radius: 30px;
+}
+.contenu,
+.iconeAnimation {
+    position: absolute;
+    height: 40vh;
+    width: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.iconeAnimation img {
+    width: 10vh;
+}
+
+/*Icones des animations disparaissent en hover*/
+.conteneur:hover .iconeAnimation,
+.conteneur:active .iconeAnimation {
+    opacity: 0;
+}
+/*Les animations apparaissent en hover*/
+.conteneur:hover .contenu,
+.conteneur:active .contenu {
+    opacity: 1;
+}
+.contenu:hover,
+.contenu:active {
+    cursor: pointer;
+}
+
+/*Div d'abord caché comportant des informations sur les jeux*/
+.info {
+    width: 40vh;
+    display: none;
+    color: white;
+    margin: 2vh auto;
+}
+
+/* Bouton flottant 'retour vers le haut de page' */
+.btn-retour-haut {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: white;
+}
+
+/* Section1
+=============================================== */
+/*Fond*/
+#section1 > .conteneur:hover,
+#section1 > .conteneur:active {
+    background-image: url("../images/fondPong.png");
+    background-size: cover;
+}
+/* Les deux rectangles de pong */
+#section1 > div .contenu div:nth-child(1),
+#section1 > div .contenu div:nth-child(3) {
+    background-color: white;
+    height: 10vh;
+    width: 3vh;
+}
+#section1 > div .contenu div:nth-child(1) {
+    /* L'animation du premier rectangle */
+    animation: animationPongRectangle 1.5s linear infinite alternate-reverse;
+}
+#section1 > div .contenu div:nth-child(3) {
+    /* L'animation du duxième rectangle */
+    animation: animationPongRectangle 1.5s linear infinite alternate;
+}
+/*La balle*/
+#ballePong {
+    background-color: white;
+    width: 3vh;
+    height: 3vh;
+    animation: animationPongBalle 3s linear infinite;
+}
+#section1 > div .contenu {
+    justify-content: space-between;
+}
+
+/* Section2
+=============================================== */
+/*Fond*/
+#section2 > .conteneur:hover,
+#section2 > .conteneur:active {
+    background-image: url("../images/fondPacMan.jpg");
+    background-size: cover;
+}
+/*Fond pointillé*/
+#section2 > div .contenu div:nth-child(2) {
+    /* Les deux rectangles de pong */
+    width: 100%;
+    height: 10vh;
+    background-image: url("../images/point.png");
+    background-size: contain;
+    transform-origin: right center;
+}
+/*Point de pouvoir*/
+#section2 > div .contenu #point {
+    position: absolute;
+    right: 8vh;
+    animation: animationPointPacMan 5s infinite steps(1, end);
+}
+#section2 > div .contenu #point img {
+    height: 2vh;
+    width: 2vh;
+}
+/*Pac-Man*/
+#section2 > div .contenu #PacMan {
+    background-image: url("../images/PacMan.png");
+    width: 130px;
+    height: 130px;
+    transform: scale(0.2);
+    position: absolute;
+    animation: animationFramePacMan 300ms infinite steps(3, end), animationPacManPosition 5s infinite;
+}
+/*Les Fantômes*/
+#section2 > div .contenu #fantome {
+    background-image: url("../images/fantome.png");
+    width: 620px;
+    height: 140px;
+    transform: scale(0.2);
+    position: absolute;
+    animation: animationFrameFantome 200ms infinite steps(2, end), animationFantomePosition 5s infinite,
+        animationFantomeEtat 5s infinite steps(1, end);
+}
+
+/* Section3
+=============================================== */
+#section3 > .conteneur:hover,
+#section3 > .conteneur:active {
+    background-image: url("../images/marioFond.jpg");
+    background-size: cover;
+}
+#mario,
+#goomba {
+    position: absolute;
+}
+
+#mario {
+    background-image: url("../images/mario.png");
+    animation: animationFrameMario 6s infinite steps(1, end), animationDeplacementMario 6s infinite;
+    width: 16px;
+    height: 16px;
+    transform: scale(3.5);
+    z-index: 2;
+    transform-origin: bottom;
+}
+#axeX {
+    animation: animationDeplacementMarioAxeX 6s infinite linear;
+}
+#goomba {
+    background-image: url("../images/goomba.png");
+    animation: animationFrameGoomba 200ms infinite steps(2, end), animationDeplacementGoomba 6s infinite linear;
+    width: 16px;
+    height: 16px;
+    transform: scale(3.5);
+    z-index: 4;
+    transform-origin: bottom;
+}
+#tuyau img {
+    width: 6vh;
+    z-index: 3;
+}
+#tuyau {
+    transform: translate(12.8vh, 13vh);
+}
+
+/* Section4
+=============================================== */
+.bloc {
+    width: auto;
+    position: absolute;
+}
+.bloc:nth-of-type(1) img,
+.bloc:nth-of-type(6) img {
+    height: 20vh;
+    width: 5vh;
+}
+.bloc:nth-of-type(3) img {
+    height: 10vh;
+    width: 10vh;
+}
+.bloc:nth-of-type(2) img,
+.bloc:nth-of-type(4) img,
+.bloc:nth-of-type(5) img,
+.bloc:nth-of-type(7) img,
+.bloc:nth-of-type(8) img {
+    height: 10vh;
+    width: 15vh;
+}
+.bloc:nth-of-type(1) {
+    transform: translate(-17.5vh, 10vh);
+    animation: animationDeplacementBloc1 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(2) {
+    transform: translate(-7.5vh, 10vh);
+    animation: animationDeplacementBloc2 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(3) {
+    transform: translate(-10vh, 15vh);
+    animation: animationDeplacementBloc3 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(4) {
+    transform: translate(7.5vh, 10vh);
+    animation: animationDeplacementBloc4 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(5) {
+    transform: translate(12.5vh, 5vh);
+    animation: animationDeplacementBloc5 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(6) {
+    transform: translate(-5.5vh, 2.25vh) rotate(90deg);
+    animation: animationDeplacementBloc6 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(7) {
+    transform: translate(2.5vh, 14.5vh) rotate(180deg);
+    animation: animationDeplacementBloc7 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+.bloc:nth-of-type(8) {
+    transform: translate(15vh, 12vh) rotate(90deg);
+    animation: animationDeplacementBloc8 10s infinite steps(8, end), animationBloc 10s infinite steps(1, end);
+}
+
+/* Footer
+=============================================== */
+/* Les sections du footer */
+footer {
+    background: url("../images/footerMobile.jpg") center no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.3); /*Trouvé sur internet*/
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: no-wrap;
+    padding: 5vh;
+    /*filter: blur(5px);*/
+}
+/*4 sections du footer*/
+footer > div {
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+/*Titre section footer*/
+footer h3 {
+    font-size: 1.4em;
+    border-bottom: 3px solid white;
+    margin-bottom: 1vh;
+}
+/*Icones à coté des titres*/
+footer span {
+    transform: scale(1.3);
+    margin-right: 1rem;
+    height: 1rem;
+}
+
+/*2e section Liens*/
+footer h6 {
+    font-size: 1rem;
+    margin-top: 0.8vh;
+}
+/*Liens*/
+footer div:nth-of-type(2) a {
+    font-size: 0.8rem;
+}
+footer div:nth-of-type(2) a:hover {
+    text-decoration: underline;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+}
+
+/*4e section*/
+footer > div:last-of-type {
+    display: flex;
+    flex-direction: column;
+}
+/*4e section Me suivre */
+footer > div:nth-of-type(4) div:nth-of-type(2) {
+    display: flex;
+    flex-wrap: wrap;
+}
+footer > div:nth-of-type(4) :last-child img {
+    /*Icones réseaux sociaux*/
+    transition: transform 0.2s;
+    width: auto;
+    margin: 1vw;
+}
+footer > div:nth-of-type(4) img:hover {
+    /*Effet survol icones réseaux sociaux*/
+    transform: scale(1.3);
+}
+
+/* Animations
+===================================================== */
+/*Animation de base*/
+@keyframes couleurFond {
+    from,
+    to {
+        background-color: #0341ae;
+    }
+    20% {
+        background-color: #18e52b;
+    }
+    40% {
+        background-color: #fecc00;
+    }
+    60% {
+        background-color: #ff7f00;
+    }
+    80% {
+        background-color: #ec343a;
+    }
+}
+/*Animation ombre des fonds*/
+@keyframes couleurOmbre {
+    from,
+    to {
+        box-shadow: 2px 2px 5px rgb(3, 65, 174, 0.5);
+    }
+    20% {
+        box-shadow: 2px 2px 5px rgb(24, 229, 43, 0.5);
+    }
+    40% {
+        box-shadow: 2px 2px 5px rgb(254, 204, 0, 0.5);
+    }
+    60% {
+        box-shadow: 2px 2px 5px rgb(255, 127, 0, 0.5);
+    }
+    80% {
+        box-shadow: 2px 2px 5px rgb(236, 52, 58, 0.5);
+    }
+}
+/*Animation apparition des sections*/
+@keyframes fonduGauche {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+@keyframes fonduDroite {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+/*Animation du titre*/
+@keyframes animerTexte {
+    0% {
+        text-shadow: none;
+    }
+    40% {
+        text-shadow: 0 0 5px #0074e8, 0 0 10px #0074e8, 0 0 15px #0074e8, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8;
+    }
+
+    100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8, 0 0 55px #0074e8,
+            0 0 75px #0074e8;
+    }
+}
+@keyframes animerTexteClignotement {
+    50% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0074e8, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8, 0 0 55px #0074e8;
+    }
+    20%,
+    80% {
+        text-shadow: 0 0 5px #0074e8, 0 0 10px #0074e8, 0 0 15px #0074e8, 0 0 20px #0074e8, 0 0 30px #0074e8;
+    }
+    40%,
+    60% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #0074e8, 0 0 15px #0074e8, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8;
+    }
+
+    from,
+    to {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0074e8, 0 0 30px #0074e8, 0 0 40px #0074e8, 0 0 55px #0074e8,
+            0 0 75px #0074e8;
+    }
+}
+/*Animation des boutons*/
+@keyframes animerBoutons {
+    from {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.5, 1);
+    }
+    to {
+        transform: scale(1.5, 1.5);
+    }
+}
+/*Pour réexecuter l'animation inverse lorsqu'on quitte le hover*/
+@keyframes animerBoutonsPlusHover {
+    from {
+        transform: scale(1.5, 1.5);
+    }
+    50% {
+        transform: scale(1.5, 1);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+/* Animations Pong
+===================================================== */
+/*Animation déplacement des rectangles*/
+@keyframes animationPongRectangle {
+    from {
+        transform: translateY(calc((-20vh + 8vh / 2)));
+    }
+    to {
+        transform: translateY(calc(20vh - 8vh / 2));
+    }
+}
+/*Animation déplacement de la balle*/
+@keyframes animationPongBalle {
+    from,
+    to {
+        transform: translate(0, calc(20vh - 3vh / 2));
+    }
+    25% {
+        transform: translate(calc(-20vh + 3vh / 2 + 3vh), 0);
+    }
+    50% {
+        transform: translate(0, calc(-20vh + 3vh / 2));
+    }
+    75% {
+        transform: translate(calc(20vh - 3vh / 2 - 3vh), 0);
+    }
+}
+
+/* Animations Pac Man
+===================================================== */
+/*Animation de la feuille de sprite de PacMan*/
+@keyframes animationFramePacMan {
+    from {
+        background-position: 0px;
+    }
+    to {
+        background-position: -390px;
+    }
+}
+/*Animation de la feuille de sprite des Fantomes*/
+@keyframes animationFrameFantome {
+    from {
+        background-position: 0px;
+    }
+    to {
+        background-position: -1240px;
+    }
+}
+/*Animation déplacement de PacMan*/
+@keyframes animationPacManPosition {
+    from {
+        transform: translateX(calc(-20vh - 5vh)) scale(0.2);
+    }
+    50% {
+        transform: translateX(11vh) scale(0.2);
+    }
+    55% {
+        transform: translateX(11vh) scale(0.2) rotate(180deg);
+    }
+    to {
+        transform: translateX(calc(-20vh - 5vh)) scale(0.2) rotate(180deg);
+    }
+}
+/*Animation déplacement des Fantomes*/
+@keyframes animationFantomePosition {
+    from {
+        transform: translateX(calc(-20vh - 15vh)) scale(0.2);
+    }
+    50% {
+        transform: translateX(-4vh) scale(0.2);
+    }
+    55% {
+        transform: translateX(-4vh) scale(0.2) rotateY(180deg);
+    }
+    to {
+        transform: translateX(calc(-20vh - 15vh)) scale(0.2) rotateY(180deg);
+    }
+}
+/*Animation de l'appartition/disaprition du point de pouvoir*/
+@keyframes animationPointPacMan {
+    from {
+        opacity: 1;
+    }
+    50%,
+    to {
+        opacity: 0;
+    }
+}
+/*Animation de l'état des fantômes (en danger ou pas)*/
+@keyframes animationFantomeEtat {
+    from {
+        background-image: url("../images/fantome.png");
+    }
+    50%,
+    to {
+        background-image: url("../images/fantomeDanger.png");
+    }
+}
+
+/* Animations Mario
+===================================================== */
+/*Animation de la feuille de sprite de Mario*/
+@keyframes animationFrameMario {
+    from,
+    6%,
+    12%,
+    16% {
+        background-position: 0px;
+    }
+    2%,
+    8%,
+    14%,
+    18% {
+        background-position: -16px;
+    }
+    4%,
+    10%,
+    16%,
+    20% {
+        background-position: -32px;
+    }
+    21% {
+        background-position: -64px;
+    }
+    to,
+    60% {
+        background-position: -48px;
+    }
+}
+/*Animation de la feuille de sprite de Goomba*/
+@keyframes animationFrameGoomba {
+    from {
+        background-position: 0px;
+    }
+    to {
+        background-position: -32px;
+    }
+}
+/*Animation de deplacement de Mario*/
+@keyframes animationDeplacementMario {
+    from {
+        transform: translateY(14vh) scale(2, 2);
+    }
+    20% {
+        transform: translateY(14vh) scale(2, 2);
+        animation-timing-function: cubic-bezier(0, 0, 0.03, 1.05);
+    }
+    30% {
+        transform: translateY(5vh) scale(2, 2);
+        animation-timing-function: cubic-bezier(0.89, 0.01, 1, 1);
+    }
+    40% {
+        transform: translateY(10vh) scale(2, 2);
+        animation-timing-function: cubic-bezier(0, 0, 0.03, 1.05);
+    }
+    50% {
+        transform: translateY(3vh) scale(2, 2);
+        animation-timing-function: cubic-bezier(0.89, 0.01, 1, 1);
+    }
+    60% {
+        transform: translateY(8vh) scale(2, 2);
+        animation-timing-function: steps(1, end);
+    }
+    70% {
+        transform: translateY(9.5vh) scale(2, 2);
+        animation-timing-function: steps(1, end);
+    }
+    80% {
+        transform: translateY(11vh) scale(2, 2);
+        animation-timing-function: steps(1, end);
+    }
+    90% {
+        transform: translateY(12.5vh) scale(2, 2);
+        animation-timing-function: steps(1, end);
+    }
+    to {
+        transform: translateY(14vh) scale(2, 2);
+        animation-timing-function: steps(1, end);
+    }
+}
+@keyframes animationDeplacementMarioAxeX {
+    from {
+        transform: translate(-22vh);
+    }
+    20% {
+        transform: translateX(-5vh);
+    }
+    30% {
+        transform: translateX(0);
+    }
+    40% {
+        transform: translateX(5vh);
+    }
+    50% {
+        transform: translateX(10vh);
+    }
+    60% {
+        transform: translateX(15vh);
+    }
+    to,
+    90% {
+        transform: translateX(15vh);
+    }
+}
+/*Animation de deplacement de goomba*/
+@keyframes animationDeplacementGoomba {
+    from {
+        transform: translate(22vh, 15vh) scale(2, 2);
+    }
+
+    40% {
+        transform: translate(4vh, 15vh) scale(2, 2);
+    }
+    to,
+    41% {
+        transform: translate(4vh, 15vh) scale(2, 0);
+    }
+}
+
+/* Animations Tetris
+===================================================== */
+@keyframes animationDeplacementBloc1 {
+    from,
+    70% {
+        transform: translate(-17.5vh, calc(10vh - 20vh - 20vh));
+    }
+    to,
+    80% {
+        transform: translate(-17.5vh, 10vh);
+    }
+}
+@keyframes animationDeplacementBloc2 {
+    from,
+    40% {
+        transform: translate(-7.5vh, calc(10vh - 25vh - 10vh));
+    }
+    to,
+    50% {
+        transform: translate(-7.5vh, 10vh);
+    }
+}
+@keyframes animationDeplacementBloc3 {
+    from {
+        transform: translate(-10vh, calc(15vh - 30vh - 10vh));
+    }
+    to,
+    10% {
+        transform: translate(-10vh, 15vh);
+    }
+}
+@keyframes animationDeplacementBloc4 {
+    from,
+    30% {
+        transform: translate(7.5vh, calc(10vh - 25vh - 10vh));
+    }
+    to,
+    40% {
+        transform: translate(7.5vh, 10vh);
+    }
+}
+@keyframes animationDeplacementBloc5 {
+    from,
+    50% {
+        transform: translate(12.5vh, calc(5vh - 20vh - 10vh));
+    }
+    to,
+    60% {
+        transform: translate(12.5vh, 5vh);
+    }
+}
+@keyframes animationDeplacementBloc6 {
+    from,
+    60% {
+        transform: translate(-5.5vh, calc(2.25vh - 20vh - 5vh)) rotate(90deg);
+    }
+    to,
+    70% {
+        transform: translate(-5.5vh, 2.25vh) rotate(90deg);
+    }
+}
+@keyframes animationDeplacementBloc7 {
+    from,
+    20% {
+        transform: translate(2.5vh, calc(14.5vh - 30vh - 10vh)) rotate(180deg);
+    }
+    to,
+    30% {
+        transform: translate(2.5vh, 14.5vh) rotate(180deg);
+    }
+}
+@keyframes animationDeplacementBloc8 {
+    from,
+    10% {
+        transform: translate(15vh, calc(12vh - 25vh - 15vh)) rotate(90deg);
+    }
+    to,
+    20% {
+        transform: translate(15vh, 12vh) rotate(90deg);
+    }
+}
+@keyframes animationBloc {
+    from,
+    79%,
+    84%,
+    92% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    80%,
+    88% {
+        filter: brightness(100);
+    }
+    to,
+    96% {
+        opacity: 0;
+    }
+}
+
+/*Assignation de l'animation des fonds*/
+.nav-principale,
+.btn-retour-haut {
+    animation: couleurFond 10s infinite linear;
+}
+.ligne {
+    animation: couleurFond 10s infinite linear, couleurOmbre 10s infinite linear;
+}
+
+/* Requête média pour écrans plus grands (576px, 992px et +)
+===================================================== */
+@media screen and (min-width: 576px) {
+    main {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    main > section {
+        padding: 1rem 2rem 20vh 2rem;
+    }
+
+    .barre-nav {
+        /* Le menu est au centre de la barre de navigation (conteneur flex) */
+        justify-content: center;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        height: 7vh;
+        animation: couleurFond 10s infinite linear;
+    }
+
+    .btn-burger-nav-principale {
+        /* Le bouton burger est retiré de l'affichage */
+        display: none;
+    }
+
+    .nav-principale {
+        /* Largeur et hauteur reprennent leurs valeurs initiales (par défaut) */
+        height: auto;
+        width: auto;
+        /* Les éléments du menu redeviennent en rangée */
+        flex-direction: row;
+        position: relative;
+        /* Gouttières de 1rem entre les colonnes */
+        column-gap: 2rem;
+        /* Les valeurs de distanciations utilisées pour mobile sont réinitialisées */
+        padding-top: 0; /* On peut aussi utiliser 'unset' */
+        padding-right: 0; /* Même commentaire */
+
+        /* Les déplacements et mise à l'échelle sont TOUS annulés */
+        transform: translate(0, 0) scale(1);
+
+        /* Les effets de transitions sont annulés */
+        transition: none;
+        animation: none;
+        background-color: transparent;
+    }
+    .nav-principale {
+        font-size: 0.8rem;
+    }
+    .glissoire > div {
+        height: 15px;
+        width: 15px;
+    }
+    .glissoire {
+        width: 40px;
+        height: 20px;
+        margin-right: 0.8vw;
+    }
+    .interrupteur:checked + label > .glissoire > div {
+        transform: translateX(21px);
+    }
+    .info {
+        position: absolute;
+    }
+    footer {
+        background: url("../images/footerTablette.jpg") center no-repeat;
+        background-size: cover;
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.8);
+    }
+}
+
+@media screen and (min-width: 992px) {
+    main {
+        flex-wrap: nowrap;
+        height: 90vh;
+        align-items: flex-start;
+    }
+    main > section {
+        padding: 8rem 1rem 1rem 1rem;
+    }
+    .nav-principale {
+        font-size: 1.2rem;
+    }
+    .btn-retour-haut {
+        display: none;
+    }
+    footer {
+        background: url("../images/footerOrdi.jpg") 50% 65% no-repeat;
+        background-size: cover;
+        flex-direction: row;
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.8);
+    }
+    footer > div {
+        flex: 1 1 0;
+    }
+}
+
+/* Pas de transformation du menu si la case à cocher associée au menu 
+    adaptatif est cochée en mode mobile puis la fenêtre est redimensionnée par 
+    l'utilisateur */
+#cc-nav-principale:checked ~ .nav-principale {
+    transform: none;
+}
+
+/*Modification de la scrollbar*/
+::-webkit-scrollbar {
+    width: 15px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #0074e8;
+    animation: animationFond;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #0341ae;
+}
